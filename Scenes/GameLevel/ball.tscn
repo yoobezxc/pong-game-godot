@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsvyjullqx584"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig3xb"]
+size = Vector2(40, 40)
+
+[node name="Ball" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 27
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ig3xb")
+debug_color = Color(0.505534, 0.578879, 0.0591383, 0.42)

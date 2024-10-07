@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://8gstk8enctx1"]
+
+[ext_resource type="AudioStream" uid="uid://b7arphawu2vtf" path="res://Audio/Musics/Crowander - Entering Space.mp3" id="1_nyfgw"]
+
+[node name="BGMusic" type="AudioStreamPlayer"]
+stream = ExtResource("1_nyfgw")
+autoplay = true
+bus = &"Music"
+parameters/looping = true

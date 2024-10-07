@@ -1,0 +1,121 @@
+[gd_scene load_steps=9 format=3 uid="uid://cr1i2usq8xhjp"]
+
+[ext_resource type="PackedScene" uid="uid://duxceyotvxjji" path="res://Scenes/paddle.tscn" id="1_huq3m"]
+[ext_resource type="Script" path="res://Scripts/main_level.gd" id="1_ulgu7"]
+[ext_resource type="PackedScene" uid="uid://dsvyjullqx584" path="res://Scenes/ball.tscn" id="3_dwbd8"]
+[ext_resource type="Script" path="res://Scripts/paddle.gd" id="3_rrnna"]
+[ext_resource type="Script" path="res://Scenes/ball.gd" id="5_y58h7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3hdfi"]
+size = Vector2(1280, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_66d0f"]
+size = Vector2(1280, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1jmnj"]
+size = Vector2(64, 720)
+
+[node name="MainLevel" type="Node2D"]
+script = ExtResource("1_ulgu7")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="BG" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="NET" type="ColorRect" parent="UI"]
+layout_mode = 0
+offset_left = 630.0
+offset_right = 650.0
+offset_bottom = 720.0
+
+[node name="PlayerScore" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 480.0
+offset_right = 560.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPUScore" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 720.0
+offset_right = 798.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player" parent="." instance=ExtResource("1_huq3m")]
+position = Vector2(60, 360)
+collision_mask = 12
+script = ExtResource("3_rrnna")
+
+[node name="CPU" parent="." instance=ExtResource("1_huq3m")]
+position = Vector2(1219, 360)
+collision_layer = 2
+collision_mask = 12
+script = ExtResource("3_rrnna")
+
+[node name="Ball" parent="." instance=ExtResource("3_dwbd8")]
+position = Vector2(640, 360)
+script = ExtResource("5_y58h7")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Walls"]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallTop"]
+position = Vector2(640, -32)
+shape = SubResource("RectangleShape2D_3hdfi")
+debug_color = Color(0.952952, 0.167113, 0.360293, 0.42)
+
+[node name="WallDown" type="StaticBody2D" parent="Walls"]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallDown"]
+position = Vector2(640, 744)
+shape = SubResource("RectangleShape2D_66d0f")
+debug_color = Color(0.952952, 0.167113, 0.360293, 0.42)
+
+[node name="Goals" type="Node2D" parent="."]
+
+[node name="GoalPlayer" type="Area2D" parent="Goals"]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goals/GoalPlayer"]
+position = Vector2(-32, 360)
+shape = SubResource("RectangleShape2D_1jmnj")
+debug_color = Color(0.748822, 0.304641, 0.862748, 0.42)
+
+[node name="GoalCPU" type="Area2D" parent="Goals"]
+collision_layer = 16
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goals/GoalCPU"]
+position = Vector2(1312, 360)
+shape = SubResource("RectangleShape2D_1jmnj")
+debug_color = Color(0.748822, 0.304641, 0.862748, 0.42)
+
+[node name="BallTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="BallTimer" to="." method="_on_ball_timer_timeout"]
